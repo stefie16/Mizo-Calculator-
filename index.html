@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="mzo">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mizo Super Calculator</title>
+    <style>
+        /* ===== GENERAL STYLING ===== */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #3a3a3a;
+            margin: 0;
+            padding: 20px 0;
+            font-family: sans-serif;
+            box-sizing: border-box;
+        }
+
+        .main-container {
+            width: 95%;
+            max-width: 380px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            background-color: #444;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+
+        /* ===== TABS STYLING ===== */
+        .tabs { display: flex; }
+        .tab-button {
+            flex-grow: 1;
+            padding: 15px;
+            border: none;
+            background-color: #555;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+        .tab-button:hover { background-color: #666; }
+        .tab-button.active {
+            background-color: #ff9500;
+            border-bottom: 3px solid #fff;
+        }
+
+        /* ===== CONTENT AREA STYLING ===== */
+        .content { padding: 15px; }
+        .content > div { display: none; }
+        .content > div.active { display: block; }
+        
+        /* ===== CALCULATOR STYLING (I siam sa) ===== */
+        .calculator #display {
+            width: 100%; height: 60px; font-size: 28px; text-align: right;
+            border: 1px solid #666; border-radius: 5px; margin-bottom: 10px;
+            padding: 10px; box-sizing: border-box; background-color: #eee; color: #333;
+        }
+        .buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .buttons button {
+            padding: 20px; font-size: 20px; border: none; border-radius: 5px;
+            cursor: pointer; background-color: #e0e0e0; transition: background-color 0.2s;
+        }
+        .buttons button:hover { background-color: #ccc; }
+        .buttons .operator { background-color: #ff9500; color: white; }
+        .buttons .operator:hover { background-color: #e08500; }
+        .buttons .zero { grid-column: span 2; }
+        .buttons .tall-btn { grid-row: span 2; }
+
+        /* ===== CONVERTER STYLING (A thar) ===== */
+        .converter-container { color: white; }
+        .converter-container h2 { text-align: center; margin-top: 0; color: #ff9500; }
+        .converter-container label { display: block; margin-bottom: 5px; font-size: 14px; }
+        .converter-container select, .converter-container input {
+            width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 4px;
+            border: 1px solid #ccc; box-sizing: border-box; font-size: 16px;
+        }
+        .converter-container .result-box {
+            font-size: 1.4em; font-weight: bold; margin-top: 10px; text-align: center;
+            background: #333; padding: 15px; border-radius: 5px; min-height: 28px;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <!-- TABS KAN SIAMNA -->
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('calculator')">Calculator</button>
+            <button class="tab-button" onclick="showTab('currency')">Currency</button>
+            <button class="tab-button" onclick="showTab('unit')">Units</button>
+        </div>
+
+        <div class="content">
+            <!-- 1. CALCULATOR CONTENT (I siam sa) -->
+            <div id="calculator" class="active">
+                <div class="calculator">
+                    <input type="text" id="display" readonly>
+                    <div class="buttons">
+                        <button class="operator" onclick="clearDisplay()">C</button>
+                        <button class="operator" onclick="calculatePercentage()">%</button>
+                        <button class="operator" onclick="backspace()">⌫</button>
+                        <button class="operator" onclick="appendToDisplay('/')">/</button>
+                        <button onclick="appendToDisplay('7')">7</button>
+                        <button onclick="appendToDisplay('8')">8</button>
+                        <button onclick="appendToDisplay('9')">9</button>
+                        <button class="operator" onclick="appendToDisplay('*')">*</button>
+                        <button onclick="appendToDisplay('4')">4</button>
+                        <button onclick="appendToDisplay('5')">5</button>
+                        <button onclick="appendToDisplay('6')">6</button>
+                        <button class="operator" onclick="appendToDisplay('-')">-</button>
+                        <button onclick="appendToDisplay('1')">1</button>
+                        <button onclick="appendToDisplay('2')">2</button>
+                        <button onclick="appendToDisplay('3')">3</button>
+                        <button class="operator tall-btn" onclick="appendToDisplay('+')">+</button>
+                        <button onclick="appendToDisplay('0')">0</button>
+                        <button onclick="appendToDisplay('.')">.</button>
+                        <button class="operator" onclick="calculateResult()">=</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. CURRENCY CONVERTER CONTENT (A thar) -->
+            <div id="currency">
+                <div class="converter-container">
+                    <h2>Currency Exchange</h2>
+                    <label for="currency_amount">Amount:</label>
+                    <input type="number" id="currency_amount" value="1" />
+                    
+                    <label for="from_currency">From:</label>
+                    <select id="from_currency"></select>
+                    
+                    <label for="to_currency">To:</label>
+                    <select id="to_currency"></select>
+                    
+                    <div id="currency_result" class="result-box"></div>
+                </div>
+            </div>
+
+            <!-- 3. UNIT CONVERTER CONTENT (A thar) -->
+            <div id="unit">
+                <div class="converter-container">
+                    <h2>Unit Converter</h2>
+                    <label for="unit_category">Category:</label>
+                    <select id="unit_category"></select>
+
+                    <label for="unit_amount">Amount:</label>
+                    <input type="number" id="unit_amount" value="1" />
+
+                    <label for="from_unit">From:</label>
+                    <select id="from_unit"></select>
+
+                    <label for="to_unit">To:</label>
+                    <select id="to_unit"></select>
+                    
+                    <div id="unit_result" class="result-box"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+// ===================================================================
+// SECTION 1: CALCULATOR LOGIC (I siam sa ang chiah)
+// ===================================================================
+const display = document.getElementById('display');
+function appendToDisplay(value) { if (display.value === 'Error') { display.value = ''; } display.value += value; }
+function clearDisplay() { display.value = ''; }
+function backspace() { display.value = display.value.slice(0, -1); }
+function calculatePercentage() { try { display.value = eval(display.value) / 100; } catch (e) { display.value = 'Error'; } }
+function calculateResult() { try { display.value = eval(display.value); } catch (e) { display.value = 'Error'; } }
+
+// ===================================================================
+// SECTION 2: TAB SWITCHING LOGIC (Tab-te inthlak kual tir tu)
+// ===================================================================
+function showTab(tabName) {
+    document.querySelectorAll('.content > div').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+    document.getElementById(tabName).classList.add('active');
+    document.querySelector(`.tab-button[onclick="showTab('${tabName}')"]`).classList.add('active');
+}
+
+// ===================================================================
+// SECTION 3: CURRENCY CONVERTER LOGIC
+// ===================================================================
+const fromCurrencySelect = document.getElementById('from_currency');
+const toCurrencySelect = document.getElementById('to_currency');
+const currencyAmountInput = document.getElementById('currency_amount');
+const currencyResultDiv = document.getElementById('currency_result');
+
+// NANGMA API KEY I DAH LUT DAWN NIA (A HNUAI ZAWKAH A DAN TUR A AWM)
+      const apiKey = 'e27b9bc378133927587aaffc'; 
+
+// Function to fetch and populate currencies
+function populateCurrencies() {
+    fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/codes`)
+        .then(res => res.json())
+        .then(data => {
+            if(data.result === 'success') {
+                data.supported_codes.forEach(([code, name]) => {
+                    fromCurrencySelect.add(new Option(`${code} - ${name}`, code));
+                    toCurrencySelect.add(new Option(`${code} - ${name}`, code));
+                });
+                fromCurrencySelect.value = 'USD';
+                toCurrencySelect.value = 'INR';
+                convertCurrency(); // A tirah vawi khat a lo in-convert nghal ang
+            }
+        });
+}
+
+// Function to perform conversion
+function convertCurrency() {
+    const amount = currencyAmountInput.value;
+    const from = fromCurrencySelect.value;
+    const to = toCurrencySelect.value;
+    if (!amount || amount <= 0) { currencyResultDiv.textContent = "A zat dah rawh"; return; }
+    
+    currencyResultDiv.textContent = 'A chhut mek...';
+    fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/pair/${from}/${to}/${amount}`)
+        .then(res => res.json())
+        .then(data => {
+            if(data.result === 'success') {
+                currencyResultDiv.textContent = `${amount} ${from} = ${data.conversion_result.toFixed(2)} ${to}`;
+            } else {
+                currencyResultDiv.textContent = 'Error. API Key check rawh.';
+            }
+        });
+}
+
+// Add event listeners
+fromCurrencySelect.addEventListener('change', convertCurrency);
+toCurrencySelect.addEventListener('change', convertCurrency);
+currencyAmountInput.addEventListener('input', convertCurrency);
+
+// ===================================================================
+// SECTION 4: UNIT CONVERTER LOGIC (API a ngai lo)
+// ===================================================================
+const unitCategorySelect = document.getElementById('unit_category');
+const fromUnitSelect = document.getElementById('from_unit');
+const toUnitSelect = document.getElementById('to_unit');
+const unitAmountInput = document.getElementById('unit_amount');
+const unitResultDiv = document.getElementById('unit_result');
+
+// Unit data kan dah khawm (Base unit aṭanga teh)
+const unitData = {
+    Length: { base: 'Meter', units: { Meter: 1, Kilometer: 1000, Centimeter: 0.01, Mile: 1609.34, Foot: 0.3048, Inch: 0.0254 } },
+    Weight: { base: 'Kilogram', units: { Kilogram: 1, Gram: 0.001, Pound: 0.453592, Ounce: 0.0283495 } },
+    Temperature: { base: 'Celsius', special: true, units: ['Celsius', 'Fahrenheit', 'Kelvin'] }
+};
+
+// Function to populate category
+function populateUnitCategories() {
+    for (const category in unitData) {
+        unitCategorySelect.add(new Option(category, category));
+    }
+    populateUnitDropdowns();
+}
+
+// Function to populate From/To dropdowns based on category
+function populateUnitDropdowns() {
+    fromUnitSelect.innerHTML = '';
+    toUnitSelect.innerHTML = '';
+    const category = unitCategorySelect.value;
+    const units = unitData[category].units;
+    for (const unit in units) {
+        fromUnitSelect.add(new Option(unit, unit));
+        toUnitSelect.add(new Option(unit, unit));
+    }
+    convertUnit();
+}
+
+// Function to perform unit conversion
+function convertUnit() {
+    const amount = parseFloat(unitAmountInput.value);
+    const category = unitCategorySelect.value;
+    const from = fromUnitSelect.value;
+    const to = toUnitSelect.value;
+
+    if (isNaN(amount)) { unitResultDiv.textContent = "A zat dah rawh"; return; }
+
+    let result;
+    if (unitData[category].special) { // Temperature a hranpa in
+        let celsius;
+        if (from === 'Celsius') celsius = amount;
+        else if (from === 'Fahrenheit') celsius = (amount - 32) * 5/9;
+        else if (from === 'Kelvin') celsius = amount - 273.15;
+
+        if (to === 'Celsius') result = celsius;
+        else if (to === 'Fahrenheit') result = (celsius * 9/5) + 32;
+        else if (to === 'Kelvin') result = celsius + 273.15;
+    } else { // Midang zawng
+        const fromFactor = unitData[category].units[from];
+        const toFactor = unitData[category].units[to];
+        result = amount * fromFactor / toFactor;
+    }
+    
+    unitResultDiv.textContent = `${amount} ${from} = ${result.toFixed(4)} ${to}`;
+}
+
+// Add event listeners
+unitCategorySelect.addEventListener('change', populateUnitDropdowns);
+unitAmountInput.addEventListener('input', convertUnit);
+fromUnitSelect.addEventListener('change', convertUnit);
+toUnitSelect.addEventListener('change', convertUnit);
+
+
+// ===================================================================
+// APPLICATION IN START TÎRTU
+// ===================================================================
+document.addEventListener('DOMContentLoaded', () => {
+    populateCurrencies();
+    populateUnitCategories();
+});
+</script>
+
+</body>
+</html>
