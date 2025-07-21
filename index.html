@@ -11,40 +11,43 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #3a3a3a;
+            background-color: transparent;
             margin: 0;
-            padding: 20px 0;
+            padding: 0;
             font-family: sans-serif;
             box-sizing: border-box;
+            background-image: url(https://plus.unsplash.com/premium_photo-1701091956254-8f24ea99a53b?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZGFyayUyMGJhY2tncm91bmR8ZW58MHx8MHx8fDA%3D); /* He link aiah i copy tak kha paste rawh */
+    background-size: cover; /* A screen a luah kim vek ang */
+    background-position: center; /* A lai tak a rawn lang ang */
+    background-repeat: no-repeat; /* A in-repeat loh nan */
         }
 
         .main-container {
-            width: 95%;
-            max-width: 380px;
-            border: 2px solid #333;
-            border-radius: 10px;
-            background-color: #444;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            overflow: hidden;
-        }
-
+            width: 100%;
+            max-width: 400px;
+            border: 2px solid shadow;
+            border-radius: 20px;
+            background-color: transparent;
+            box-shadow: 0 0 px rgba(0,0,0,0.5);
+            overflow: hidden;}
+        
         /* ===== TABS STYLING ===== */
-        .tabs { display: flex; }
-        .tab-button {
-            flex-grow: 1;
-            padding: 15px;
-            border: none;
-            background-color: #555;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            border-bottom: 3px solid transparent;
-        }
-        .tab-button:hover { background-color: #666; }
+        .tabs {display: flex;justify-content: center;}
+         .tab-button {flex-grow: 5; /* THLAKNA 1: Hei hian a zau zawng in-share tir tawh lovang */
+    padding: 15px 20px;
+    border: 500px;
+    background-color: transparent;
+    color: grey; /* THLAKNA 2: Rawng var dãng deuh */
+    font-size: 20px;
+    font-weight: 500; /* A THAR: A hawrawp tih-pâ deuh hlek */
+    cursor: pointer;
+    transition: color 0.3s, border-bottom-color 0.3s; /* A THAR */
+    border-bottom: 3px solid transparent;}
+        .tab-button:hover { background-color: none; }
         .tab-button.active {
-            background-color: #ff9500;
-            border-bottom: 3px solid #fff;
+            background-color: transparent;
+            border-bottom: transparent;
+            color:white;
         }
 
         /* ===== CONTENT AREA STYLING ===== */
@@ -54,9 +57,11 @@
         
         /* ===== CALCULATOR STYLING (I siam sa) ===== */
         .calculator #display {
-            width: 100%; height: 60px; font-size: 28px; text-align: right;
-            border: 1px solid #666; border-radius: 5px; margin-bottom: 10px;
-            padding: 10px; box-sizing: border-box; background-color: #eee; color: #333;
+            width: 100%; height: 400px; font-size: 50px; display: flex;
+    justify-content: flex-end; /* A dinglam sirah a dah */
+    align-items: flex-end;   /* A hnuai lam sirah a dah */
+            border: 1px solid transparent; border-radius: 5px; margin-bottom: 10px;
+            padding: 10px; box-sizing: border-box; background-color: transparent; color: white;
         }
         .buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
         .buttons button {
@@ -69,18 +74,52 @@
         .buttons .zero { grid-column: span 2; }
         .buttons .tall-btn { grid-row: span 2; }
 
-        /* ===== CONVERTER STYLING (A thar) ===== */
-        .converter-container { color: white; }
-        .converter-container h2 { text-align: center; margin-top: 0; color: #ff9500; }
-        .converter-container label { display: block; margin-bottom: 5px; font-size: 14px; }
-        .converter-container select, .converter-container input {
-            width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 4px;
-            border: 1px solid #ccc; box-sizing: border-box; font-size: 16px;
-        }
-        .converter-container .result-box {
-            font-size: 1.4em; font-weight: bold; margin-top: 10px; text-align: center;
-            background: #333; padding: 15px; border-radius: 5px; min-height: 28px;
-            word-wrap: break-word;
+
+        /* ===== CONVERTER STYLING (A THAR) ===== */
+.converter-container {
+    width: 100%;
+    height: 100%; /* A san zawng pawh a kim vek */
+    padding: none;
+    display: flex;
+    flex-direction: column; /* A chhunga thil awmte a indawt chhoh thliah nan */
+    color: white;}
+
+/* A input leh select-ho dahna box */
+.converter-box {
+    margin-bottom: 20px;
+    margin-top:2px;
+}
+
+.converter-container label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #ccc;
+    text-align:left;
+}
+
+.converter-container select,
+.converter-container input[type="number"] {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-sizing: border-box;
+    font-size: 1.2rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+.converter-container .result-box {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-top: auto; /* HEI HI A MAGIC LAI A NI */
+    text-align: center;
+    padding: 20px;
+    min-height: 60px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    word-wrap: break-word;
         }
     </style>
 </head>
@@ -89,20 +128,22 @@
     <div class="main-container">
         <!-- TABS KAN SIAMNA -->
         <div class="tabs">
-            <button class="tab-button active" onclick="showTab('calculator')">Calculator(chhiarkawp)</button>
+            <button class="tab-button active" onclick="showTab('calculator')">Calculator</button>
             <button class="tab-button" onclick="showTab('currency')">Currency</button>
-            <button class="tab-button" onclick="showTab('unit')">Units(tehfung)</button>
+            <button class="tab-button" onclick="showTab('unit')">Units</button>
         </div>
 
         <div class="content">
             <!-- 1. CALCULATOR CONTENT (I siam sa) -->
             <div id="calculator" class="active">
                 <div class="calculator">
-                    <input type="text" id="display" readonly>
+                    <!-- A Display Siam That -->
+<div id="display">
+    <span id="display-Value">0</span></div>
+
                     <div class="buttons">
                         <button class="operator" onclick="clearDisplay()">C</button>
-                        <button class="operator" onclick="calculatePercentage()">%</button>
-                        <button class="operator" onclick="backspace()">⌫</button>
+                        <button class="operator" onclick="backspace()">⌫</button>                       <button class="operator" onclick="calculatePercentage()">%</button>
                         <button class="operator" onclick="appendToDisplay('/')">/</button>
                         <button onclick="appendToDisplay('7')">7</button>
                         <button onclick="appendToDisplay('8')">8</button>
@@ -126,7 +167,6 @@
             <!-- 2. CURRENCY CONVERTER CONTENT (A thar) -->
             <div id="currency">
                 <div class="converter-container">
-                    <h2>Currency Exchange</h2>
                     <label for="currency_amount">Amount:</label>
                     <input type="number" id="currency_amount" value="1" />
                     
@@ -136,14 +176,12 @@
                     <label for="to_currency">To:</label>
                     <select id="to_currency"></select>
                     
-                    <div id="currency_result" class="result-box"></div>
-                </div>
-            </div>
+                    <div id="currency_result" class="result-box"></div></div></div
 
             <!-- 3. UNIT CONVERTER CONTENT (A thar) -->
             <div id="unit">
                 <div class="converter-container">
-                    <h2>Unit Converter</h2>
+                    <div class="converter-box">
                     <label for="unit_category">Category:</label>
                     <select id="unit_category"></select>
 
@@ -166,12 +204,12 @@
 // ===================================================================
 // SECTION 1: CALCULATOR LOGIC (I siam sa ang chiah)
 // ===================================================================
-const display = document.getElementById('display');
-function appendToDisplay(value) { if (display.value === 'Error') { display.value = ''; } display.value += value; }
-function clearDisplay() { display.value = ''; }
-function backspace() { display.value = display.value.slice(0, -1); }
-function calculatePercentage() { try { display.value = eval(display.value) / 100; } catch (e) { display.value = 'Error'; } }
-function calculateResult() { try { display.value = eval(display.value); } catch (e) { display.value = 'Error'; } }
+const displayValueElement = document.getElementById('display-Value');
+function appendToDisplay(value) { if (displayValueElement.textContent === 'Error') { displayValueElement.textContent = ''; } displayValueElement.textContent += value; }
+function clearDisplay() { displayValueElement.textContent = ''; }
+function backspace() { displayValueElement.textContent = displayValueElement.textContent.slice(0, -1); }
+function calculatePercentage() { try { displayValueElement.textContent = eval(displayValueElement.textContent) / 100; } catch (e) { displayValueElement.textContent = 'Error'; } }
+function calculateResult() { try { displayValueElement.textContent = eval(displayValueElement.textContent); } catch (e) { displayValueElement.textContent = 'Error'; } }
 
 // ===================================================================
 // SECTION 2: TAB SWITCHING LOGIC (Tab-te inthlak kual tir tu)
@@ -246,7 +284,7 @@ const unitResultDiv = document.getElementById('unit_result');
 
 // Unit data kan dah khawm (Base unit aṭanga teh)
 const unitData = {
-    Length: { base: 'Meter', units: { Meter: 1, Kilometer: 1000, Centimeter: 0.01, Mile: 1609.34, Foot: 0.3048, Inch: 0.0254 } },
+    Length: { base: 'Meter', units: { Kilometer: 1000,Meter: 1, Decimeter: 0.1,Centimeter: 0.01, Milimeter: 0.001,Mile: 1609.34, Foot: 0.3048, Inch: 0.0254, LightYear: 9460730472580800 } },
     Weight: { base: 'Kilogram', units: { Kilogram: 1, Gram: 0.001, Pound: 0.453592, Ounce: 0.0283495 } },
     Temperature: { base: 'Celsius', special: true, units: ['Celsius', 'Fahrenheit', 'Kelvin'] }
 };
