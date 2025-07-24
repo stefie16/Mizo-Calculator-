@@ -2,15 +2,17 @@
 <html lang="mzo">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mizo Super Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* ===== GENERAL STYLING ===== */
         body {
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 10vh;
+            min-height: 100vh;
             background-color: transparent;
             margin: 0;
             padding: 0;
@@ -33,11 +35,11 @@
         
         /* ===== TABS STYLING ===== */
         .tabs {display: flex;justify-content: center;}
-         .tab-button {flex-grow: 5; /* THLAKNA 1: Hei hian a zau zawng in-share tir tawh lovang */
+         .tab-button {flex-grow: 10; /* THLAKNA 1: Hei hian a zau zawng in-share tir tawh lovang */
     padding: 15px 20px;
     border: 500px;
     background-color: transparent;
-    color: grey; /* THLAKNA 2: Rawng var dãng deuh */
+    color: #ff9500; /* THLAKNA 2: Rawng var dãng deuh */
     font-size: 20px;
     font-weight: 500; /* A THAR: A hawrawp tih-pâ deuh hlek */
     cursor: pointer;
@@ -56,25 +58,35 @@
         .content > div.active { display: block; }
         
         /* ===== CALCULATOR STYLING (I siam sa) ===== */
-        .calculator #display {
+        
+        #display {
             width: 100%; height: 400px; font-size: 50px; display: flex;
     justify-content: flex-end; /* A dinglam sirah a dah */
     align-items: flex-end;   /* A hnuai lam sirah a dah */
-            border: 1px solid transparent; border-radius: 5px; margin-bottom: 10px;
-            padding: 10px; box-sizing: border-box; background-color: transparent; color: white;
-        }
+            border: 1px solid transparent; 
+            border-radius: 5px;
+            margin-bottom: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+            background-color: transparent;
+            color: white;}
+
         .buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
         .buttons button {
-            padding: 20px; font-size: 20px; border: none; border-radius: 5px;
-            cursor: pointer; background-color: #e0e0e0; transition: background-color 0.2s;
+            padding: 20px; 
+            font-size: 1.4rem;
+            height: 65px;
+            border: none; 
+            border-radius: 15px;
+            cursor: pointer;
+            background-color: rgba(255, 255, 255, 0.15); color: #ffffff;
+            transition: background-color 0.2s;
+          display: flex; justify-content: center; align-items: center;
         }
-        .buttons button:hover { background-color: #ccc; }
+        .buttons button:hover { background-color: rgba(255, 255, 255, 0.25); }
         .buttons .operator { background-color: #ff9500; color: white; }
-        .buttons .operator:hover { background-color: #e08500; }
-        .buttons .zero { grid-column: span 2; }
-        .buttons .tall-btn { grid-row: span 2; }
-
-
+        .buttons .operator:hover { background-color: #e09500; }
+  
         /* ===== CONVERTER STYLING (A THAR) ===== */
 .converter-container {
     width: 100%;
@@ -83,12 +95,6 @@
     display: flex;
     flex-direction: column; /* A chhunga thil awmte a indawt chhoh thliah nan */
     color: white;}
-
-/* A input leh select-ho dahna box */
-.converter-box {
-    margin-bottom: 20px;
-    margin-top:2px;
-}
 
 .converter-container label {
     display: block;
@@ -102,7 +108,7 @@
 .converter-container input[type="number"] {
     width: 100%;
     padding: 15px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     border-radius: 10px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-sizing: border-box;
@@ -116,11 +122,11 @@
     margin-top: auto; /* HEI HI A MAGIC LAI A NI */
     text-align: center;
     padding: 20px;
-    min-height: 60px;
+    min-height: 100px;
     border-radius: 10px;
     background: rgba(0, 0, 0, 0.2);
-    word-wrap: break-word;
-        }
+    word-wrap: break-word;}
+    
     </style>
 </head>
 <body>
@@ -133,36 +139,49 @@
             <button class="tab-button" onclick="showTab('unit')">Units</button>
         </div>
 
-        <div class="content">
-            <!-- 1. CALCULATOR CONTENT (I siam sa) -->
-            <div id="calculator" class="active">
-                <div class="calculator">
-                    <!-- A Display Siam That -->
-<div id="display">
-    <span id="display-Value">0</span></div>
+    <div class="content">
+            <!-- 1. CALCULATOR CONTENT (I siam sa) --> 
+            <!-- 1. CALCULATOR CONTENT (A THAR: A ruhrel dik zawk) -->
+<div id="calculator" class="page active">
+    
+    <!-- A Display (A ngai reng) -->
+    <div id="display">
+        <span id="display-value">0</span>
+    </div>
 
-                    <div class="buttons">
-                        <button class="operator" onclick="clearDisplay()">C</button>
-                        <button class="operator" onclick="backspace()">⌫</button>                       <button class="operator" onclick="calculatePercentage()">%</button>
-                        <button class="operator" onclick="appendToDisplay('/')">/</button>
-                        <button onclick="appendToDisplay('7')">7</button>
-                        <button onclick="appendToDisplay('8')">8</button>
-                        <button onclick="appendToDisplay('9')">9</button>
-                        <button class="operator" onclick="appendToDisplay('*')">*</button>
-                        <button onclick="appendToDisplay('4')">4</button>
-                        <button onclick="appendToDisplay('5')">5</button>
-                        <button onclick="appendToDisplay('6')">6</button>
-                        <button class="operator" onclick="appendToDisplay('-')">-</button>
-                        <button onclick="appendToDisplay('1')">1</button>
-                        <button onclick="appendToDisplay('2')">2</button>
-                        <button onclick="appendToDisplay('3')">3</button>
-                        <button class="operator tall-btn" onclick="appendToDisplay('+')">+</button>
-                        <button onclick="appendToDisplay('0')">0</button>
-                        <button onclick="appendToDisplay('.')">.</button>
-                        <button class="operator" onclick="calculateResult()">=</button>
-                    </div>
-                </div>
-            </div>
+    <!-- Buttons Container Pui Ber -->
+    <div class="buttons">
+        <button class="operator" onclick="clearDisplay()">AC</button>
+        <button class="operator" onclick="backspace()"><i class="fas fa-backspace"></i></button>
+        <button class="operator" onclick="calculatePercentage()">%</button>
+        <button class="operator" onclick="appendToDisplay('/')">÷</button>
+        
+        <button onclick="appendToDisplay('7')">7</button>
+        <button onclick="appendToDisplay('8')">8</button>
+        <button onclick="appendToDisplay('9')">9</button>
+        <button class="operator" onclick="appendToDisplay('*')">×</button>
+
+        <button onclick="appendToDisplay('4')">4</button>
+        <button onclick="appendToDisplay('5')">5</button>
+        <button onclick="appendToDisplay('6')">6</button>
+        <button class="operator" onclick="appendToDisplay('-')">−</button>
+
+        <button onclick="appendToDisplay('1')">1</button>
+        <button onclick="appendToDisplay('2')">2</button>
+        <button onclick="appendToDisplay('3')">3</button>
+        <button class="operator" onclick="appendToDisplay('+')">+</button>
+        
+        <button id="toggle-view-btn" class="btn" onclick="toggleScientificView()">
+    <i class="fas fa-ruler-combined"></i></button>
+
+        <button class="zero" onclick="appendToDisplay('0')">0</button>
+        <button onclick="appendToDisplay('.')">.</button>
+        <button class="operator equal" onclick="calculateResult()">=</button>
+    </div> <!-- .buttons kharna -->
+</div> <!-- #calculator kharna -->
+    
+
+      
 
             <!-- 2. CURRENCY CONVERTER CONTENT (A thar) -->
             <div id="currency">
@@ -176,7 +195,7 @@
                     <label for="to_currency">To:</label>
                     <select id="to_currency"></select>
                     
-                    <div id="currency_result" class="result-box"></div></div></div
+                    <div id="currency_result" class="result-box"></div></div></div>
 
             <!-- 3. UNIT CONVERTER CONTENT (A thar) -->
             <div id="unit">
@@ -194,24 +213,30 @@
                     <label for="to_unit">To:</label>
                     <select id="to_unit"></select>
                     
-                    <div id="unit_result" class="result-box"></div>
+                 <div id="unit_result" class="result-box"> </div>
                 </div>
             </div>
-        </div>
+       </div>
     </div>
 
 <script>
 // ===================================================================
 // SECTION 1: CALCULATOR LOGIC (I siam sa ang chiah)
 // ===================================================================
-const displayValueElement = document.getElementById('display-Value');
-function appendToDisplay(value) { if (displayValueElement.textContent === 'Error') { displayValueElement.textContent = ''; } displayValueElement.textContent += value; }
+const displayValueElement = document.getElementById('display-value');
+function appendToDisplay(value) { if (displayValueElement.textContent === '0') { displayValueElement.textContent = ''; } displayValueElement.textContent += value; }
 function clearDisplay() { displayValueElement.textContent = ''; }
-function backspace() { displayValueElement.textContent = displayValueElement.textContent.slice(0, -1); }
+function backspace() {
+    if (displayValueElement.textContent.length === 1 || displayValueElement.textContent === 'Error') {
+        displayValueElement.textContent = '0';
+    } else {
+        displayValueElement.textContent = displayValueElement.textContent.slice(0, -1);
+    }
+}
 function calculatePercentage() { try { displayValueElement.textContent = eval(displayValueElement.textContent) / 100; } catch (e) { displayValueElement.textContent = 'Error'; } }
 function calculateResult() { try { displayValueElement.textContent = eval(displayValueElement.textContent); } catch (e) { displayValueElement.textContent = 'Error'; } }
 
-// ===================================================================
+
 // SECTION 2: TAB SWITCHING LOGIC (Tab-te inthlak kual tir tu)
 // ===================================================================
 function showTab(tabName) {
@@ -219,6 +244,22 @@ function showTab(tabName) {
     document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
     document.getElementById(tabName).classList.add('active');
     document.querySelector(`.tab-button[onclick="showTab('${tabName}')"]`).classList.add('active');
+}
+// SECTION 2: VIEW SWITCHING LOGIC
+const mainContainer = document.querySelector('.main-container');
+const toggleBtnIcon = document.querySelector('#toggle-view-btn i'); // A THAR: A icon kan la chhuak
+
+function toggleScientificView() {
+    mainContainer.classList.toggle('scientific-view-active');
+
+    // A THAR: A icon tih danglamna
+    if (mainContainer.classList.contains('scientific-view-active')) {
+        // Tunah scientific view-ah a awm -> calculator pangngai icon-ah thlak rawh
+        toggleBtnIcon.className = 'fas fa-calculator';
+    } else {
+        // Tunah basic view-ah a awm -> scientific icon-ah dah leh rawh
+        toggleBtnIcon.className = 'fas fa-ruler-combined';
+    }
 }
 
 // ===================================================================
@@ -352,6 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
     populateCurrencies();
     populateUnitCategories();
 });
+
 </script>
 
 </body>
