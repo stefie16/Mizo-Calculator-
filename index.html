@@ -36,7 +36,7 @@
         /* ===== TABS STYLING ===== */
         .tabs {display: flex;justify-content: center;}
          .tab-button {flex-grow: 10; /* THLAKNA 1: Hei hian a zau zawng in-share tir tawh lovang */
-    padding: 15px 20px;
+    padding: 20px 20px;
     border: 500px;
     background-color: transparent;
     color: #ff9500; /* THLAKNA 2: Rawng var dãng deuh */
@@ -57,14 +57,14 @@
         .content > div { display: none; }
         .content > div.active { display: block; }
         
-        /* ===== CALCULATOR STYLING (I siam sa) ===== */
-        
+        /* ===== CALCULATOR STYLING ===== */
+       #calculator { display: flex; flex-direction: column;}
         #display {
-            width: 100%; height: 400px; font-size: 50px; display: flex;
+            width: 100%; height: 500px; font-size: 80px; display: flex;
     justify-content: flex-end; /* A dinglam sirah a dah */
     align-items: flex-end;   /* A hnuai lam sirah a dah */
             border: 1px solid transparent; 
-            border-radius: 5px;
+            border-radius: 10px;
             margin-bottom: 10px;
             padding: 10px;
             box-sizing: border-box;
@@ -75,7 +75,7 @@
         .buttons button {
             padding: 20px; 
             font-size: 1.4rem;
-            height: 65px;
+            height: 10px;
             border: none; 
             border-radius: 15px;
             cursor: pointer;
@@ -84,9 +84,20 @@
           display: flex; justify-content: center; align-items: center;
         }
         .buttons button:hover { background-color: rgba(255, 255, 255, 0.25); }
-        .buttons .operator { background-color: #ff9500; color: white; }
+        .buttons .operator { background-color: rgba(255, 255, 255, 0.15); color: white; }
         .buttons .operator:hover { background-color: #e09500; }
+        .main-container.expanded .buttons {
+    grid-template-columns: repeat(5, 1fr); align: center;}
+    
+  .btn.sci-btn {
+    display: none; /* A tirah a inthukru */ 
+}
+.main-container.expanded .btn.sci-btn {
+    display: flex; /* A lang tawh ang */
   
+}
+
+
         /* ===== CONVERTER STYLING (A THAR) ===== */
 .converter-container {
     width: 100%;
@@ -142,43 +153,57 @@
     <div class="content">
             <!-- 1. CALCULATOR CONTENT (I siam sa) --> 
             <!-- 1. CALCULATOR CONTENT (A THAR: A ruhrel dik zawk) -->
-<div id="calculator" class="page active">
+       <div id="calculator" class="page active">
     
-    <!-- A Display (A ngai reng) -->
-    <div id="display">
-        <span id="display-value">0</span>
-    </div>
+    
+          <!-- A Display (A ngai reng) -->
+          <div id="display">
+             <span id="display-value">0</span>
+          </div>
 
-    <!-- Buttons Container Pui Ber -->
-    <div class="buttons">
-        <button class="operator" onclick="clearDisplay()">AC</button>
-        <button class="operator" onclick="backspace()"><i class="fas fa-backspace"></i></button>
-        <button class="operator" onclick="calculatePercentage()">%</button>
-        <button class="operator" onclick="appendToDisplay('/')">÷</button>
+        <!-- Buttons Container Pui Ber -->
+        <div class="buttons">
+            <button class="btn sci-btn operator" onclick="handleScientific('')">2nd</button>
+            <button class="btn sci-btn operator" onclick="handleScientific('deg')">deg</button>
+            <button class="btn sci-btn operator" onclick="handleScientific('sin')">sin</button>
+            <button class="btn sci-btn operator" onclicik="handleScientific('cos')">cos</button>
+            <button class="btn sci-btn operator" onclick="handleScientific('tan')">tan</button>
+            <button class="btn sci-btn" onclick="handleScientific('powY')">x<sup>y</sup></button>
+            <button class="btn sci-btn" onclick="handleScientific('log')">lg</button>
+            <button class="btn sci-btn" onclick="handleScientific('ln')">ln</button>
+            <button class="btn sci-btn" onclick="appendToDisplay('(')">(</button>
+            <button class="btn sci-btn" onclick="appendToDisplay(')')">)</button>
+            <button class="btn sci-btn" onclick="handleScientific('sqrt')">√x</button>
+
+           <button class="operator" onclick="clearDisplay()">AC</button>
+           <button class="operator" onclick="backspace()"><i class="fas fa-backspace"></i></button>
+           <button class="operator" onclick="calculatePercentage()">%</button>
+           <button class="operator" onclick="appendToDisplay('/')">÷</button>
+           <button class="btn sci-btn" onclick="handleScientific('fact')">x!</button>
+
+           <button onclick="appendToDisplay('7')">7</button>
+           <button onclick="appendToDisplay('8')">8</button>
+           <button onclick="appendToDisplay('9')">9</button>
+           <button class="operator" onclick="appendToDisplay('*')">×</button>
+           <button class="btn sci-btn" onclick="handleScientific('inv')">1/x</button>
+           <button onclick="appendToDisplay('4')">4</button>
+           <button onclick="appendToDisplay('5')">5</button>
+           <button onclick="appendToDisplay('6')">6</button>
+           <button class="operator" onclick="appendToDisplay('-')">−</button>
+           <button class="btn sci-btn" onclick="appendToDisplay('Math.PI')">π</button>
+           <button onclick="appendToDisplay('1')">1</button>
+           <button onclick="appendToDisplay('2')">2</button>
+           <button onclick="appendToDisplay('3')">3</button>
+           <button class="operator" onclick="appendToDisplay('+')">+</button>
+           <button id="master-toggle-btn" class="btn operator" onclick="toggleSuperView()">
+                   <i class="fas fa-atom"></i> </button>
         
-        <button onclick="appendToDisplay('7')">7</button>
-        <button onclick="appendToDisplay('8')">8</button>
-        <button onclick="appendToDisplay('9')">9</button>
-        <button class="operator" onclick="appendToDisplay('*')">×</button>
-
-        <button onclick="appendToDisplay('4')">4</button>
-        <button onclick="appendToDisplay('5')">5</button>
-        <button onclick="appendToDisplay('6')">6</button>
-        <button class="operator" onclick="appendToDisplay('-')">−</button>
-
-        <button onclick="appendToDisplay('1')">1</button>
-        <button onclick="appendToDisplay('2')">2</button>
-        <button onclick="appendToDisplay('3')">3</button>
-        <button class="operator" onclick="appendToDisplay('+')">+</button>
-        
-        <button id="toggle-view-btn" class="btn" onclick="toggleScientificView()">
-    <i class="fas fa-ruler-combined"></i></button>
-
-        <button class="zero" onclick="appendToDisplay('0')">0</button>
-        <button onclick="appendToDisplay('.')">.</button>
-        <button class="operator equal" onclick="calculateResult()">=</button>
-    </div> <!-- .buttons kharna -->
-</div> <!-- #calculator kharna -->
+            <button class="btn sci-btn" onclick="appendToDisplay('Math.E')">e</button>
+            <button class="zero" onclick="appendToDisplay('0')">0</button>
+            <button onclick="appendToDisplay('.')">.</button>
+            <button class="operator equal" onclick="calculateResult()">=</button>
+        </div> <!-- .buttons kharna -->
+      </div> <!-- #calculator kharna -->
     
 
       
@@ -224,43 +249,95 @@
 // SECTION 1: CALCULATOR LOGIC (I siam sa ang chiah)
 // ===================================================================
 const displayValueElement = document.getElementById('display-value');
-function appendToDisplay(value) { if (displayValueElement.textContent === '0') { displayValueElement.textContent = ''; } displayValueElement.textContent += value; }
-function clearDisplay() { displayValueElement.textContent = ''; }
+function appendToDisplay(value) { if (displayValueElement.textContent === '0' || displayValueElement.textContent === 'Error') { displayValueElement.textContent = value; } else { displayValueElement.textContent += value;} }
+function clearDisplay() { displayValueElement.textContent = '0'; }
 function backspace() {
     if (displayValueElement.textContent.length === 1 || displayValueElement.textContent === 'Error') {
-        displayValueElement.textContent = '0';
-    } else {
-        displayValueElement.textContent = displayValueElement.textContent.slice(0, -1);
+        displayValueElement.textContent = '0';} else {
+        displayValueElement.textContent = displayValueElement.textContent.slice(0, -1);}}
+function calculatePercentage() { try { displayValueElement.textContent = eval(displayValueElement.textContent) / 100; } catch (e) { displayValueElement.textContent = 'Error'; }}
+function calculateResult() { 
+try { let expression = displayValueElement.textContent.replace(/\^/g, '**');
+  let result = eval(expression);
+displayValueElement.textContent = parseFloat(result.toFixed(10));} catch (e) { displayValueElement.textContent = 'Error'; }}
+// SECTION 1.5: SCIENTIFIC FUNCTION LOGIC (A THAR)
+// ===================================================================
+function handleScientific(func) {
+    let currentExpression = displayValueElement.textContent;
+    let currentValue;
+    let result;
+if(currentExpression === 'Error') {currentExpression = '0';}
+try {currentValue = eval(currentExpression);
+         switch(func) { 
+case 'sin': result = Math.sin(currentValue * Math.PI / 180);
+                break;
+case 'cos': result = Math.cos(currentValue * Math.PI / 180);
+                break;
+case 'tan': result = Math.tan(currentValue * Math.PI / 180);
+                break;
+case 'log': result = Math.log10(currentValue);break;
+case 'ln': result = Math.log(currentValue);break;
+case 'sqrt': result = Math.sqrt(currentValue); break;
+case 'powY': displayValueElement.textContent += '^'; return; case 'fact': result = factorial(currentValue); break;
+            case 'inv': result = 1 / currentValue; break; }
+
+  if (isNaN(result) || !isFinite(result)) {
+  displayValueElement.textContent = 'Error'; } else {
+      displayValueElement.textContent = parseFloat(result.toFixed(10));
+        }
+
+    } catch (e) {
+        displayValueElement.textContent = 'Error';
     }
 }
-function calculatePercentage() { try { displayValueElement.textContent = eval(displayValueElement.textContent) / 100; } catch (e) { displayValueElement.textContent = 'Error'; } }
-function calculateResult() { try { displayValueElement.textContent = eval(displayValueElement.textContent); } catch (e) { displayValueElement.textContent = 'Error'; } }
 
+// Factorial chhutna function (a hranpain)
+function factorial(n) {
+    if (n < 0) return NaN; // Error
+    if (n === 0) return 1;
+    let result = 1;
+    for (let i = n; i > 1; i--) {
+        result *= i; }
+    return result; }
 
 // SECTION 2: TAB SWITCHING LOGIC (Tab-te inthlak kual tir tu)
 // ===================================================================
+const mainContainer = document.querySelector('.main-container');
+const masterBtn = document.getElementById('master-toggle-btn'); 
+
 function showTab(tabName) {
     document.querySelectorAll('.content > div').forEach(c => c.classList.remove('active'));
     document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
     document.getElementById(tabName).classList.add('active');
     document.querySelector(`.tab-button[onclick="showTab('${tabName}')"]`).classList.add('active');
 }
-// SECTION 2: VIEW SWITCHING LOGIC
-const mainContainer = document.querySelector('.main-container');
-const toggleBtnIcon = document.querySelector('#toggle-view-btn i'); // A THAR: A icon kan la chhuak
 
-function toggleScientificView() {
-    mainContainer.classList.toggle('scientific-view-active');
 
-    // A THAR: A icon tih danglamna
-    if (mainContainer.classList.contains('scientific-view-active')) {
-        // Tunah scientific view-ah a awm -> calculator pangngai icon-ah thlak rawh
-        toggleBtnIcon.className = 'fas fa-calculator';
+function toggleSuperView() {
+    // 1. A container a in-expand/collapse ang (a scientific button-ho a lo lang ang)
+    mainContainer.classList.toggle('expanded');
+
+    // 2. A button-te a lianin a tê ang
+    mainContainer.classList.toggle('buttons-small');
+    
+    // 3. A icon-te a inthlak kual ang
+    updateMasterButtonIcon();
+}
+
+function updateMasterButtonIcon() {
+    // A THAR: A icon kan la chhuak ṭha
+    const masterBtnIcon = masterBtn.querySelector('i');
+    
+    // "expanded" class a neih chuan, "Close" icon-ah thlak rawh
+    if (mainContainer.classList.contains('expanded')) {
+        masterBtnIcon.className = 'fas fa-compress-arrows-alt'; // A ti-zîm lehna icon
     } else {
-        // Tunah basic view-ah a awm -> scientific icon-ah dah leh rawh
-        toggleBtnIcon.className = 'fas fa-ruler-combined';
+        masterBtnIcon.className = 'fas fa-atom'; // A tir icon
     }
 }
+
+
+
 
 // ===================================================================
 // SECTION 3: CURRENCY CONVERTER LOGIC
